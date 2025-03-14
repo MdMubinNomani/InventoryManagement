@@ -25,15 +25,15 @@ namespace InventoryManagement.Repositories
             return products;
         }
 
-        public async Task<Product?> GetByIDAsync(Guid? id)
+        public async Task<Product?> GetByIDAsync(int id)
         {
-            var product = await _context.product.FirstOrDefaultAsync(m => m.PId == id);
+            var product = await _context.product.FirstOrDefaultAsync(m => m.Id == id);
             return product;
         }
 
         public void Insert(Product product)
         {
-            product.PId = Guid.NewGuid();
+            
             _context.Add(product);
         }
 
@@ -42,9 +42,9 @@ namespace InventoryManagement.Repositories
             _context.product.Update(product);
         }
 
-        public bool ProductExists(Guid id)
+        public bool ProductExists(int id)
         {
-            return _context.product.Any(e => e.PId == id);
+            return _context.product.Any(e => e.Id == id);
         }
 
         public IEnumerable<Product> GetAll()

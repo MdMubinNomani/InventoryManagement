@@ -7,10 +7,10 @@ namespace InventoryManagement.Repositories
     {
         IEnumerable<Product> GetAll();
         Task<List<Product>> GetAllAsync();
-        Task<Product?> GetByIDAsync(Guid? id);
+        Task<Product?> GetByIDAsync(int id);
         void Insert(Product product);
         void Update(Product product);
         void Delete(Product product);
-        bool ProductExists(Guid PId);
+        bool ProductExists(int PId);
     }
 }

@@ -29,7 +29,7 @@ namespace InventoryManagement.Controllers
         }
 
         // GET: Products/Details/5 [done]
-        public async Task<IActionResult> Details(Guid? PId)
+        public async Task<IActionResult> Details(int PId)
         {
             var product = await UoW.ProductRepository.GetByIDAsync(PId);
             if (product == null) return NotFound();
@@ -59,7 +59,7 @@ namespace InventoryManagement.Controllers
         }
 
         // GET: Products/Edit/5 [done]
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null) return NotFound();
             var product = await UoW.ProductRepository.GetByIDAsync(id);
@@ -73,9 +73,9 @@ namespace InventoryManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PId,PName,PAmount,UnitPrice")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PName,PAmount,UnitPrice")] Product product)
         {
-            if (id != product.PId) return NotFound();
+            if (id != product.Id) return NotFound();
             
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace InventoryManagement.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UoW.ProductRepository.ProductExists(product.PId)) return NotFound();
+                    if (!UoW.ProductRepository.ProductExists(product.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
@@ -95,7 +95,7 @@ namespace InventoryManagement.Controllers
         }
 
         // GET: Products/Delete/5 [done]
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null) return NotFound();
             var product = await UoW.ProductRepository.GetByIDAsync(id);
@@ -107,7 +107,7 @@ namespace InventoryManagement.Controllers
         // POST: Products/Delete/5 [done]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await UoW.ProductRepository.GetByIDAsync(id);
             if (product != null)
@@ -120,9 +120,11 @@ namespace InventoryManagement.Controllers
 
         // GET: Products/GetData
         // API that returns JSON for Tabulator.js Library
+
         public JsonResult GetData()
         {
-            return Json(UoW.ProductRepository.GetAll());
+            var data = UoW.ProductRepository.GetAll();
+            return Json(data);
         }
 
     }

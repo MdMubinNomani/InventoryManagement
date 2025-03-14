@@ -57,14 +57,14 @@
             layout: "fitColumns",
             ajaxURL: "/Products/GetData", // Fetch data from the controller
             columns: [
-                { title: "Product Name", field: "PName", sorter: "string", headerFilter: "input" },
-                { title: "Amount", field: "PAmount", sorter: "number", headerFilter: "number" },
-                { title: "Unit Price", field: "UnitPrice", sorter: "number", headerFilter: "number" },
+                { title: "Product Name", field: "pName", sorter: "string", headerFilter: "input" },
+                { title: "Amount", field: "pAmount", sorter: "number", headerFilter: "number" },
+                { title: "Unit Price", field: "unitPrice", sorter: "number", headerFilter: "number" },
                 {
-                    title: "Actions", field: "PId", hozAlign: "center", formatter: function (cell, formatterParams) {
+                    title: "Actions", field: "id", hozAlign: "center", formatter: function (cell, formatterParams) {
                         var id = cell.getValue();
                         return `<a href='/Products/Edit/${id}'>Edit</a> |
-                                <a href='/Products/Details/${id}'>Details</a> |
+                                <a href='/Products/Details?PId=${id}'>Details</a> |
                                 <a href='/Products/Delete/${id}'>Delete</a>`;
                     }
                 }
