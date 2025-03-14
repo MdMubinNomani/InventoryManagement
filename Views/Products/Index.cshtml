@@ -1,0 +1,75 @@
+﻿@model IEnumerable<InventoryManagement.Models.Entities.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<!-- Tabulator Table Container -->
+<div id="product-table"></div>
+
+@* <table class="table"> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             <th> *@
+@*                 @Html.DisplayNameFor(model => model.PName) *@
+@*             </th> *@
+@*             <th> *@
+@*                 @Html.DisplayNameFor(model => model.PAmount) *@
+@*             </th> *@
+@*             <th> *@
+@*                 @Html.DisplayNameFor(model => model.UnitPrice) *@
+@*             </th> *@
+@*             <th></th> *@
+@*         </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@* @foreach (var item in Model) { *@
+@*         <tr> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.PName) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.PAmount) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.UnitPrice) *@
+@*             </td> *@
+@*             <td> *@
+@*                 <a asp-action="Edit" asp-route-id="@item.PId">Edit</a> | *@
+@*                 <a asp-action="Details" asp-route-id="@item.PId">Details</a> | *@
+@*                 <a asp-action="Delete" asp-route-id="@item.PId">Delete</a> *@
+@*             </td> *@
+@*         </tr> *@
+@* } *@
+@*     </tbody> *@
+@* </table> *@
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var table = new Tabulator("#product-table", {
+            layout: "fitColumns",
+            ajaxURL: "/Products/GetData", // Fetch data from the controller
+            columns: [
+                { title: "Product Name", field: "PName", sorter: "string", headerFilter: "input" },
+                { title: "Amount", field: "PAmount", sorter: "number", headerFilter: "number" },
+                { title: "Unit Price", field: "UnitPrice", sorter: "number", headerFilter: "number" },
+                {
+                    title: "Actions", field: "PId", hozAlign: "center", formatter: function (cell, formatterParams) {
+                        var id = cell.getValue();
+                        return `<a href='/Products/Edit/${id}'>Edit</a> |
+                                <a href='/Products/Details/${id}'>Details</a> |
+                                <a href='/Products/Delete/${id}'>Delete</a>`;
+                    }
+                }
+            ]
+        });
+    });
+</script>
+
