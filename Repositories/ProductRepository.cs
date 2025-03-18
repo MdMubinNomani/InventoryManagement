@@ -41,12 +41,13 @@ namespace InventoryManagement.Repositories
         public void Insert(Product product)
         {
             //_context.Add(product); // Direct Insert
-            _context.Database.ExecuteSqlInterpolated($"InsertProduct {product.PName}, {product.PAmount}, {product.UnitPrice}"); // Stored Procedure Post
+            _context.Database.ExecuteSqlInterpolated($"InsertProduct {product.PName}, {product.PAmount}, {product.UnitPrice}"); // Stored Procedure Insert
         }
 
         public void Update(Product product)
         {
-            _context.product.Update(product); // Direct Update
+            //_context.product.Update(product); // Direct Update
+            _context.Database.ExecuteSql($"UpdateProduct {product.Id}, {product.PName}, {product.PAmount}, {product.UnitPrice}"); // Stored Procedure Update
         }
 
         public bool ProductExists(int id)
