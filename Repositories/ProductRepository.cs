@@ -16,7 +16,8 @@ namespace InventoryManagement.Repositories
 
         public void Delete(Product product)
         {
-            _context.Remove(product);
+            _context.Remove(product); // Direct Delete
+            //_context.Database.ExecuteSqlInterpolated($"");
         }
 
         public async Task<List<Product>> GetAllAsync()
@@ -39,12 +40,13 @@ namespace InventoryManagement.Repositories
 
         public void Insert(Product product)
         {
-            _context.Add(product);
+            //_context.Add(product); // Direct Insert
+            _context.Database.ExecuteSqlInterpolated($"InsertProduct {product.PName}, {product.PAmount}, {product.UnitPrice}"); // Stored Procedure Post
         }
 
         public void Update(Product product)
         {
-            _context.product.Update(product);
+            _context.product.Update(product); // Direct Update
         }
 
         public bool ProductExists(int id)
