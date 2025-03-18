@@ -16,8 +16,8 @@ namespace InventoryManagement.Repositories
 
         public void Delete(Product product)
         {
-            _context.Remove(product); // Direct Delete
-            //_context.Database.ExecuteSqlInterpolated($"");
+            //_context.Remove(product); // Direct Delete
+            _context.Database.ExecuteSqlInterpolated($"DeleteProduct {product.Id}"); // Stored Procedure Delete
         }
 
         public async Task<List<Product>> GetAllAsync()
