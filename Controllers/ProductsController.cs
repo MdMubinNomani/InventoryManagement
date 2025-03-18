@@ -15,23 +15,23 @@ namespace InventoryManagement.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IUnitOfWork UoW;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ProductsController(IUnitOfWork unitOfWork)
         {
-            UoW = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Products [done]
         public async Task<IActionResult> Index()
         {
-            return View(await UoW.ProductRepository.GetAllAsync());
+            return View(await _unitOfWork.ProductRepository.GetAllAsync());
         }
 
         // GET: Products/Details/5 [done]
         public async Task<IActionResult> Details(int PId)
         {
-            var product = await UoW.ProductRepository.GetByIDAsync(PId);
+            var product = await _unitOfWork.ProductRepository.GetByIDAsync(PId);
             if (product == null) return NotFound();
             return View(product);
         }
@@ -51,8 +51,8 @@ namespace InventoryManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                UoW.ProductRepository.Insert(product);
-                await UoW.Save();
+                _unitOfWork.ProductRepository.Insert(product);
+                await _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -62,7 +62,7 @@ namespace InventoryManagement.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null) return NotFound();
-            var product = await UoW.ProductRepository.GetByIDAsync(id);
+            var product = await _unitOfWork.ProductRepository.GetByIDAsync(id);
             if (product == null) return NotFound();
 
             return View(product);
@@ -81,12 +81,12 @@ namespace InventoryManagement.Controllers
             {
                 try
                 {
-                    UoW.ProductRepository.Update(product);
-                    await UoW.Save();
+                    _unitOfWork.ProductRepository.Update(product);
+                    await _unitOfWork.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UoW.ProductRepository.ProductExists(product.Id)) return NotFound();
+                    if (!_unitOfWork.ProductRepository.ProductExists(product.Id)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction(nameof(Index));
@@ -98,7 +98,7 @@ namespace InventoryManagement.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null) return NotFound();
-            var product = await UoW.ProductRepository.GetByIDAsync(id);
+            var product = await _unitOfWork.ProductRepository.GetByIDAsync(id);
             if (product == null) return NotFound();
 
             return View(product);
@@ -109,12 +109,12 @@ namespace InventoryManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await UoW.ProductRepository.GetByIDAsync(id);
+            var product = await _unitOfWork.ProductRepository.GetByIDAsync(id);
             if (product != null)
             {
-                UoW.ProductRepository.Delete(product);
+                _unitOfWork.ProductRepository.Delete(product);
             }
-            await UoW.Save();
+            await _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
 
@@ -123,7 +123,7 @@ namespace InventoryManagement.Controllers
 
         public JsonResult GetData()
         {
-            var data = UoW.ProductRepository.GetAll();
+            var data = _unitOfWork.ProductRepository.GetAll();
             return Json(data);
         }
 
