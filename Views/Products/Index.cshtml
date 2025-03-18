@@ -20,8 +20,8 @@
             ajaxURL: "/Products/GetData", // Fetch data from the controller
             columns: [
                 { title: "Product Name", field: "pName", sorter: "string", headerFilter: "input" },
-                { title: "Amount", field: "pAmount", sorter: "number", headerFilter: "number" },
-                { title: "Unit Price", field: "unitPrice", sorter: "number", headerFilter: "number" },
+                { title: "Amount", field: "pAmount", hozAlign: "right" , sorter: "number", headerFilter: "number" },
+                { title: "Unit Price", field: "unitPrice", hozAlign: "right", sorter: "number", headerFilter: "number" },
                 {
                     title: "Actions", field: "id", hozAlign: "center", formatter: function (cell, formatterParams) {
                         var id = cell.getValue();
