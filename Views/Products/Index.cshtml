@@ -7,11 +7,11 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-outline-primary btn-">Create New</a>
 </p>
 
 <!-- Tabulator Table Container -->
-<div id="product-table"></div>
+<div id="product-table" ></div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -19,15 +19,15 @@
             layout: "fitColumns",
             ajaxURL: "/Products/GetData", // Fetch data from the controller
             columns: [
-                { title: "Product Name", field: "pName", sorter: "string", headerFilter: "input" },
+                { title: "Product Name", field: "pName", hozAlign: "center", sorter: "string", headerFilter: "input" },
                 { title: "In Stock", field: "pAmount", hozAlign: "right" , sorter: "number", headerFilter: "number" },
                 { title: "Unit Price", field: "unitPrice", hozAlign: "right", sorter: "number", headerFilter: "number" },
                 {
                     title: "Actions", field: "id", hozAlign: "center", formatter: function (cell, formatterParams) {
                         var id = cell.getValue();
-                        return `<a href='/Products/Edit/${id}'>Edit</a> |
-                                <a href='/Products/Details?PId=${id}'>Details</a> |
-                                <a href='/Products/Delete/${id}'>Delete</a>`;
+                        return `<a href='/Products/Edit/${id}' class="btn btn-secondary btn-sm">Edit</a> |
+                                <a href='/Products/Details?PId=${id}' class="btn btn-info btn-sm">Details</a> |
+                                <a href='/Products/Delete/${id}' class="btn btn-danger btn-sm">Delete</a>`;
                     }
                 }
             ]
