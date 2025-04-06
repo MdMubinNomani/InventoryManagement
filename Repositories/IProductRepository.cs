@@ -12,5 +12,6 @@ namespace InventoryManagement.Repositories
         void Update(Product product);
         void Delete(Product product);
         bool ProductExists(int PId);
+        IEnumerable<Product> GetByName(string term);
     }
 }

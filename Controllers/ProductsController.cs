@@ -127,5 +127,16 @@ namespace InventoryManagement.Controllers
             return Json(data);
         }
 
+        // GET: Products/SearchRecords
+        // for select2 implementation
+
+        public JsonResult SearchRecords(string term)
+        {
+            var results = _unitOfWork.ProductRepository.GetByName(term)
+                .Select(p => new { id = p.Id, text = p.PName })
+                .ToList();
+
+            return Json(results);
+        }
     }
 }

@@ -59,5 +59,14 @@ namespace InventoryManagement.Repositories
         {
             return _context.product.FromSqlRaw("GetAllProducts"); // Stored Procedure Fetch
         }
+
+        public IEnumerable<Product> GetByName(string term)
+        {
+            return _context.product
+                .Where(p => p.PName.Contains(term))
+                .OrderBy(p => p.PName)
+                .Take(10)
+                .ToList();
+        }
     }
 }

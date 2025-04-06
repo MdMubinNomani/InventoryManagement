@@ -4,34 +4,85 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Product list</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-primary btn-">Create New</a>
+    <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
 </p>
 
-<!-- Tabulator Table Container -->
-<div id="product-table" ></div>
+<!-- Select2 implementation -->
+<select id="recordSearch" style="width: 300px">
+    <option></option>
+</select>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var table = new Tabulator("#product-table", {
-            layout: "fitColumns",
-            ajaxURL: "/Products/GetData", // Fetch data from the controller
-            columns: [
-                { title: "Product Name", field: "pName", hozAlign: "center", sorter: "string", headerFilter: "input" },
-                { title: "In Stock", field: "pAmount", hozAlign: "right" , sorter: "number", headerFilter: "number" },
-                { title: "Unit Price", field: "unitPrice", hozAlign: "right", sorter: "number", headerFilter: "number" },
-                {
-                    title: "Actions", field: "id", hozAlign: "center", formatter: function (cell, formatterParams) {
-                        var id = cell.getValue();
-                        return `<a href='/Products/Edit/${id}' class="btn btn-secondary btn-sm">Edit</a> |
-                                <a href='/Products/Details?PId=${id}' class="btn btn-info btn-sm">Details</a> |
-                                <a href='/Products/Delete/${id}' class="btn btn-danger btn-sm">Delete</a>`;
+<!-- Tabulator Table Container -->
+<div id="product-table" style="margin-top: 10px"></div>
+
+@section Scripts {
+    <script>
+        var table; 
+
+        $(document).ready(function () {
+            // Initialize Select2
+            $('#recordSearch').select2({
+                placeholder: "Search records...",
+                minimumInputLength: 2,
+                allowClear: true,
+                ajax: {
+                    url: '@Url.Action("SearchRecords", "Products")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            term: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
                     }
                 }
-            ]
-        });
-    });
-</script>
+            });
 
+            // When a record is selected
+            $('#recordSearch').on('select2:select', function (e) {
+                var selectedId = e.params.data.id;
+                console.log("Selected record ID:", selectedId);
+
+                if (table) {
+                    table.setFilter("id", "=", selectedId); 
+                }
+            });
+            // When Select2 is cleared
+            $('#recordSearch').on('select2:clear', function (e) {
+                console.log("Filter cleared.");
+
+                if (table) {
+                    table.clearFilter();
+                }    
+            });
+
+
+            // Initialize Tabulator
+            table = new Tabulator("#product-table", {
+                layout: "fitColumns",
+                ajaxURL: "@Url.Action("GetData", "Products")",
+                columns: [
+                    { title: "Product Name", field: "pName", hozAlign: "center", sorter: "string" },
+                    { title: "In Stock", field: "pAmount", hozAlign: "right", sorter: "number" },
+                    { title: "Unit Price", field: "unitPrice", hozAlign: "right", sorter: "number" },
+                    {
+                        title: "Actions", field: "id", hozAlign: "center", formatter: function (cell) {
+                            var id = cell.getValue();
+                            return `
+                                <a href='/Products/Edit/${id}' class="btn btn-secondary btn-sm">Edit</a> |
+                                <a href='/Products/Details?PId=${id}' class="btn btn-info btn-sm">Details</a> |
+                                <a href='/Products/Delete/${id}' class="btn btn-danger btn-sm">Delete</a>`;
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
