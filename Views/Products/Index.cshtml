@@ -68,12 +68,18 @@
             table = new Tabulator("#product-table", {
                 layout: "fitColumns",
                 ajaxURL: "@Url.Action("GetData", "Products")",
+                pagination: "local",
+                paginationSize: 5,
+                paginationSizeSelector: [5, 10, 20, 50],
+                paginationCounter: "rows", 
+                paginationButtonCount: 5,
+
+
                 columns: [
                     { title: "Product Name", field: "pName", hozAlign: "center", sorter: "string" },
                     { title: "In Stock", field: "pAmount", hozAlign: "right", sorter: "number" },
                     { title: "Unit Price", field: "unitPrice", hozAlign: "right", sorter: "number" },
-                    {
-                        title: "Actions", field: "id", hozAlign: "center", formatter: function (cell) {
+                    { title: "Actions", field: "id", hozAlign: "center", formatter: function (cell) {
                             var id = cell.getValue();
                             return `
                                 <a href='/Products/Edit/${id}' class="btn btn-secondary btn-sm">Edit</a> |

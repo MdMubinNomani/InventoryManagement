@@ -8,11 +8,20 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/InventoryManagement.styles.css" asp-append-version="true" />
 
-    <!-- Select2 CSS-->
+    <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- Tabulator CSS -->
-    <link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator.min.css" rel="stylesheet">
+    @* <!-- Tabulator default design CSS --> *@
+    @* <link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator.min.css" rel="stylesheet"> *@
+
+    <!-- Tabulator minimal design CSS -->
+    <link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator_simple.min.css" rel="stylesheet">
+
+    @* <!-- Tabulator midnight design CSS -->
+    @* <link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator_midnight.min.css" rel="stylesheet"> *@
+
+    @* <!-- Tabulator bootstrap5 design CSS --> *@
+    @* <link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator_bootstrap5.min.css" rel="stylesheet"> *@
 
 </head>
 <body>
@@ -30,12 +39,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Product list</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Product list</a>
-                        </li>
                     </ul>
                 </div>
             </div>

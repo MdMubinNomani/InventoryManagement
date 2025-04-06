@@ -128,7 +128,7 @@ namespace InventoryManagement.Controllers
         }
 
         // GET: Products/SearchRecords
-        // for select2 implementation
+        // Returns records that contains 'term' as a substring
 
         public JsonResult SearchRecords(string term)
         {
